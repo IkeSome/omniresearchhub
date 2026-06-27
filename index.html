@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OmniResearch Hub | Academic & Educational Insights</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Website Header -->
+   <header>
+        <div class="container header-layout">
+            
+            <div class="nav-container">
+                <button class="menu-toggle-btn" onclick="toggleMenu()">☰ Menu</button>
+                
+                <nav id="dropdown-menu" class="dropdown-links">
+                    <div class="menu-item">
+                        <a href="index.html">Home</a>
+                    </div>
+                    <div class="menu-item">
+                        <button class="menu-action-btn" onclick="openDonationModal()">Support ❤️</button>
+                    </div>
+                    <div class="menu-item">
+                        <button class="menu-action-btn" onclick="scrollToSection('about-me')">About</button>
+                    </div>
+                    <div class="menu-item">
+                        <button class="menu-action-btn" onclick="scrollToSection('papers-forum')">Research Papers</button>
+                    </div>
+                    <div class="menu-item">
+                        <button class="menu-action-btn" onclick="scrollToSection('contact-info')">Contact</button>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="ai-container">
+                <button class="ai-toggle-btn" onclick="alert('AI Integration Coming Soon!')">✨ AI Lab</button>
+            </div><!-- Right Side: AI Terminal Trigger Tab -->
+<div class="ai-container">
+    <button class="ai-toggle-btn" onclick="alert('AI Integration Coming Soon!')">
+        <span>✨ AI Lab</span>
+        <span class="ai-subtitle">Ask Ike</span>
+    </button>
+</div>
+
+            <div class="header-text">
+                <h1>OmniResearch Hub</h1>
+                <p>Bridging Complex Data and Visual Learning Across All Disciplines</p>
+            </div>
+            
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container">
+        
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h2>Advancing Knowledge Through Comprehensive Study.
+                This site was built to assist learners to fetch data during reseach.
+            </h2>
+            <p class="lead-text"> Welcome to OmniResearch Hub, a centralized platform dedicated to breaking down complex academic theories, scientific data, and educational studies into accessible, visually engaging insights.</p>
+            
+            <p>Our mission spans across all fields of study—from the humanities and social sciences to advanced STEM disciplines. We believe that true understanding happens when rigorous text is paired with clear, intuitive illustrations. Whether you are a student, educator, or lifelong researcher, this site is designed to illuminate discoveries and foster multidisciplinary learning.</p>
+        </section>
+
+        <!-- Main Introduction Image -->
+        <figure class="featured-image">
+            <!-- This placeholder generates a professional conceptual research/data image -->
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1000&q=80" alt="A notebook, laptop, and charts representing multidisciplinary academic research">
+            <figcaption>Empowering global education by visualizing data, trends, and breakthroughs in every major field of study.</figcaption>
+        </figure>
+
+        <!-- Our Focus Areas -->
+            <!-- Our Focus Areas with Clickable Tabs -->
+<section class="focus-areas">
+    <h3>Explore Our Research Domains</h3>
+    
+    <!-- Tab Navigation Buttons -->
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="openTab(event, 'science')">Science & Tech</button>
+        <button class="tab-btn" onclick="openTab(event, 'humanities')">Humanities</button>
+        <button class="tab-btn" onclick="openTab(event, 'education')">Education</button>
+    </div>
+
+    <!-- Tab Content Blocks -->
+    <div id="science" class="tab-content show">
+        <h4>Science & Technology Fields</h4>
+        <p>Select a specific discipline below to explore our targeted research data and illustrations.</p>
+
+        <div class="sub-tab-menu">
+            <button class="sub-btn sub-active" onclick="openSubTab(event, 'maths')">Mathematics</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'health')">Health & Medicine</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'engineering')">Engineering</button>
+        </div>
+
+        <div id="maths" class="sub-content sub-show">
+            <h5>Mathematical Sciences & Data Modeling</h5>
+            <p>Featuring active research on predictive modeling, statistical analysis, and geometric illustrations.</p>
+        </div>
+
+        <div id="health" class="sub-content">
+            <h5>Health, Biology & Medical Research</h5>
+            <p>Exploring epidemiological data, cellular biology charts, and healthcare system layouts.</p>
+        </div>
+
+        <div id="engineering" class="sub-content">
+            <h5>Engineering & Applied Technologies</h5>
+            <p>Analyzing structural architectural designs, electrical schematics, and mechanical system studies.</p>
+        </div>
+    </div>
+
+    <div id="humanities" class="tab-content">
+        <h4>Humanities, Culture & Law Fields</h4>
+        <p>Select a specific discipline below to explore our historical trends, legal systems, and cultural research.</p>
+
+        <div class="sub-tab-menu">
+            <button class="sub-btn sub-active" onclick="openSubTab(event, 'history')">History & Culture</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'law')">Legal Studies</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'sociology')">Sociology</button>
+        </div>
+
+        <div id="history" class="sub-content sub-show">
+            <h5>Historical Trends & Anthropological Evolutions</h5>
+            <p>Analyzing global timeline shifts, language family expansions, and historical archive data preservation frameworks.</p>
+        </div>
+
+        <div id="law" class="sub-content">
+            <h5>Jurisprudence & International Legal Systems</h5>
+            <p>Exploring constitutional principles, comparative law metrics, and public policy development frameworks.</p>
+        </div>
+
+        <div id="sociology" class="sub-content">
+            <h5>Sociological Structures & Behavioral Patterns</h5>
+            <p>Investigating population demographics, urbanization impacts, and institutional social dynamics data.</p>
+        </div>
+    </div>
+
+    <div id="education" class="tab-content">
+        <h4>Educational Methodologies Research</h4>
+        <p>Select a specific area below to explore pedagogical shifts, resource distribution frameworks, and cognitive learning sciences.</p>
+
+        <div class="sub-tab-menu">
+            <button class="sub-btn sub-active" onclick="openSubTab(event, 'pedagogy')">Pedagogy</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'edtech')">Educational Tech</button>
+            <button class="sub-btn" onclick="openSubTab(event, 'cognitive')">Cognitive Science</button>
+        </div>
+
+        <div id="pedagogy" class="sub-content sub-show">
+            <h5>Pedagogical Frameworks & Instructional Designs</h5>
+            <p>Researching modern curriculum formatting, open-access classroom teaching models, and cross-border learning metrics.</p>
+        </div>
+
+        <div id="edtech" class="sub-content">
+            <h5>Digital Integration & Educational Systems</h5>
+            <p>Evaluating virtual classroom effectiveness, adaptive testing software configurations, and visual aid tools metrics.</p>
+        </div>
+
+        <div id="cognitive" class="sub-content">
+            <h5>Cognitive Sciences & Developmental Psychology</h5>
+            <p>Studying neurobiological foundations of learning, informational retention systems, and memory reinforcement studies.</p>
+        </div>
+    </div>
+</section>
+</section>
+<section id="about-me" class="research-post">
+        <h3>About the Researcher</h3>
+        <p>Welcome! I am Isaac Essilfie, an academic researcher committed to exploring interdisciplinary data trends. This platform functions as a centralized archive where complex metrics across all study domains are distilled into accessible concepts with clean illustrations to augment global visual learning frameworks.</p>
+    </section>
+
+    <section id="papers-forum" class="research-post">
+        <h3>Academic Libraries & Research Forums</h3>
+        <p>Select a portal below to access peer-reviewed databases and global open-access academic discussion forums:</p>
+        <ul class="resource-links">
+            <li><a href="https://scholar.google.com" target="_blank">Google Scholar Directory</a></li>
+            <li><a href="https://www.researchgate.net" target="_blank">ResearchGate Network</a></li>
+            <li><a href="https://arxiv.org" target="_blank">arXiv Open Access Archive</a></li>
+        </ul>
+    </section>
+
+    <section id="contact-info" class="research-post">
+        <h3>Direct Communications & Social Portals</h3>
+        <p>Have inquiries regarding data metrics, research collaborations, or educational consultations? Reach out directly via the instantaneous secure channels below:</p>
+        
+        <div class="contact-buttons">
+            <a href="https://wa.me/233546977454" target="_blank" class="whatsapp-btn">Chat 1: (+233 54 6977454)</a>
+            <a href="https://wa.me/233557402679" target="_blank" class="whatsapp-btn">Chat 2: (+233 55 7402679)</a>
+        </div>
+
+        <div class="social-placeholders">
+            <h4>Connect On Social Media</h4>
+            <a href="https://www.linkedin.com/in/isaac-essilfie-972a27327?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" class="social-link">LinkedIn Profile</a>
+        </div>
+    </section>
+
+    <div id="donation-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <h4>Support Our Educational Research ❤️</h4>
+            <p>Your institutional or voluntary contributions directly support data compilation, visual illustrations, and open-access servers.</p>
+            
+            <div class="bank-details-card">
+                <p><strong>Bank Entity:</strong> Ghana Commercial Bank (GCB)</p>
+                <p><strong>Account Name:</strong> Isaac Essilfie</p>
+                <p><strong>Account Number:</strong> 2081010076216</p>
+            </div>
+            
+            <button class="close-modal-btn" onclick="closeDonationModal()">Dismiss Window</button>
+        </div>
+    </div>
+</main>
+
+    <script>
+        // Main Tab Control Function
+        function openTab(evt, tabId) {
+            var contents = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("show");
+            }
+
+            var buttons = document.getElementsByClassName("tab-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            document.getElementById(tabId).classList.add("show");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Sub-Tab Control Function
+        function openSubTab(evt, subTabId) {
+            var subContents = document.getElementsByClassName("sub-content");
+            for (var i = 0; i < subContents.length; i++) {
+                subContents[i].classList.remove("sub-show");
+            }
+
+            var subButtons = document.getElementsByClassName("sub-btn");
+            for (var i = 0; i < subButtons.length; i++) {
+                subButtons[i].classList.remove("sub-active");
+            }
+
+           document.getElementById(subTabId).classList.add("sub-show");
+            evt.currentTarget.classList.add("sub-active");
+        }
+
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.classList.toggle("show-menu");
+        }
+        // Smooth scrolling to a requested information section
+        function scrollToSection(sectionId) {
+            var element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("dropdown-menu").classList.remove("show-menu");
+            }
+        }
+
+        // Open support payment window
+        function openDonationModal() {
+            document.getElementById("donation-modal").style.display = "flex";
+            document.getElementById("dropdown-menu").classList.remove("show-menu");
+        }
+
+        // Close support payment window
+        function closeDonationModal() {
+            document.getElementById("donation-modal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>

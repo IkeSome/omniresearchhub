@@ -1,0 +1,442 @@
+/* General Page Setup */
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+..container {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Website Header Navigation Drawer Area */
+header {
+    background-color: #1a365d; /* Academic deep blue */
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 4px solid #3182ce;
+}
+/* Position: Slid slightly higher up */
+.ai-container {
+    position: absolute !important;
+    top: -28px !important;     /* Changed from -22px to -28px to lift it perfectly */
+    right: 20px !important;    
+    left: auto !important;     
+    z-index: 150 !important;
+}
+
+/* Premium AI Purple-Blue Gradient Button (Flex Column Setup) */
+/* Premium AI Purple-Blue Gradient Button (Slightly Reduced Size) */
+.ai-toggle-btn {
+    background: linear-gradient(135deg, #6b46c1, #3182ce) !important; 
+    color: white !important;
+    border: none !important;
+    padding: 4px 10px !important;    /* Reduced padding for a sleeker profile */
+    font-size: 0.8rem !important;    /* Scaled down text size */
+    font-weight: bold !important;
+    cursor: pointer !important;
+    border-radius: 6px !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15) !important;
+    display: flex !important;
+    flex-direction: column !important; 
+    align-items: center !important;    
+    gap: 1px !important;              
+    transition: transform 0.2s, opacity 0.2s !important;
+}
+
+.ai-toggle-btn:hover {
+    transform: translateY(-1px) !important;
+    opacity: 0.95 !important;
+}
+
+/* High-Contrast "Ask Ike" Subtitle Styling */
+.ai-subtitle {
+    color: #f6fa03 !important;       /* Vibrant matching gold/yellow */
+    font-size: 0.68rem !important;   /* Scaled down subtitle font */
+    font-weight: 800 !important;      
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Position: Slid slightly higher up into perfect alignment */
+.ai-container {
+    position: absolute !important;
+    top: -35px !important;     /* Pulled to -28px to bring it perfectly up */
+    right: 20px !important;    
+    left: auto !important;     
+    z-index: 150 !important;
+}
+/* Premium AI Purple-Blue Gradient Button (Slightly Reduced Size) */
+.ai-toggle-btn {
+    background: linear-gradient(135deg, #6b46c1, #3182ce) !important; 
+    color: white !important;
+    border: none !important;
+    padding: 5px 12px !important;    /* Tighter padding to reduce overall button height */
+    font-size: 0.85rem !important;   /* Slightly scaled down text sizing */
+    font-weight: bold !important;
+    cursor: pointer !important;
+    border-radius: 6px !important; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.15) !important;
+    display: flex !important;
+    flex-direction: column !important; /* Positions Ask Ike right under AI Lab */
+    align-items: center !important;    /* Centers both lines cleanly */
+    gap: 1px !important;               /* Minimizes line separation gap */
+    transition: transform 0.2s, opacity 0.2s !important;
+}
+
+.ai-toggle-btn:hover {
+    transform: translateY(-1px) !important;
+    opacity: 0.95 !important;
+}
+
+/* Bright custom color for BOTH the stars icon and the subtitle text */
+.ai-stars, .ai-subtitle {
+    color: #ffb84d !important;       /* Warm, high-contrast gold-orange color */
+}
+
+/* Additional fine-tuning for the subtitle text alignment */
+.ai-subtitle {
+    font-size: 0.68rem !important;    /* Crisp, clean micro-text size */
+    font-weight: 800 !important;       /* Bold font weight so it pops out */
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Subtitle "Ask Ike" text styling directly below the button */
+.ai-subtitle {
+    color: rgba(255, 255, 255, 0.85) !important; /* Crisp, readable white layout text */
+    font-size: 0.75rem !important;                /* Small, elegant tagline size */
+    font-weight: 600 !important;
+    margin-top: 4px !important;                   /* Tightly bound underneath the button */
+    text-transform: uppercase !important;         /* Professional tracking */
+    letter-spacing: 0.5px !important;
+}
+.header-layout {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.header-text p {
+    margin: 10px 0 0 0;
+    opacity: 0.8;
+}
+
+/* Nav Bar Toggle Layout */
+.nav-container {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    text-align: left;
+    z-index: 100;
+}
+
+.menu-toggle-btn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.menu-toggle-btn:hover {
+    background-color: #2b6cb0;
+}
+
+/* Dropdown Options Drawer Setup */
+.dropdown-links {
+    display: none;
+    position: absolute;
+    top: 40px;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 180px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    padding: 10px 0;
+}
+
+.dropdown-links.show-menu {
+    display: block;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item a {
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.menu-action-btn {
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2d3748;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+}
+
+.menu-item:hover, .menu-item a:hover, .menu-action-btn:hover {
+    background-color: #f7fafc;
+    color: #3182ce;
+}
+
+/* Research Post Structural Layouts */
+.research-post {
+    background: white;
+    padding: 40px;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.lead-text {
+    font-size: 1.2rem;
+    color: #2b6cb0;
+    font-weight: 500;
+}
+
+h2, h3 {
+    color: #2d3748;
+}
+
+/* Core Media/Illustration Management */
+figure {
+    margin: 30px 0;
+    background: #f7fafc;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    text-align: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+figcaption {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-style: italic;
+}
+
+/* Multi-Tier Tab Systems Management */
+.focus-areas {
+    background: white;
+    padding: 30px;
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.tab-menu {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tab-btn {
+    background-color: #e2e8f0;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background-color: #3182ce;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.show {
+    display: block;
+}
+
+/* Internal Sub-Discipline Pill Design Setup */
+.sub-tab-menu {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+}
+
+.sub-btn {
+    background: none;
+    border: 1px solid #cbd5e0;
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: 20px;
+    color: #4a5568;
+    transition: 0.2s;
+}
+
+.sub-btn.sub-active, .sub-btn:hover {
+    background-color: #4a5568;
+    color: white;
+    border-color: #4a5568;
+}
+
+.sub-content {
+    display: none;
+    padding: 10px 0;
+}
+
+.sub-content.sub-show {
+    display: block;
+}
+}
+
+/* Bullet list for academic resources */
+.resource-links {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+.resource-links li {
+    margin-bottom: 10px;
+}
+.resource-links a {
+    color: #3182ce;
+    text-decoration: none;
+    font-weight: bold;
+}
+.resource-links a:hover {
+    text-decoration: underline;
+}
+
+/* WhatsApp Communication Grid Buttons */
+.contact-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+.whatsapp-btn {
+    background-color: #25D366; /* Official WhatsApp Green */
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.2s;
+}
+.whatsapp-btn:hover {
+    background-color: #128C7E;
+}
+
+/* Social Media Channels Layout */
+.social-placeholders {
+    margin-top: 25px;
+    border-top: 1px dashed #cbd5e0;
+    padding-top: 15px;
+}
+.social-link {
+    color: #4a5568;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+.social-link:hover {
+    color: #3182ce;
+}
+
+/* Support Donation Window Overlay (Modal Box background layer) */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Centralized Banking Panel Card */
+.modal-box {
+    background: white;
+    padding: 30px;
+    max-width: 450px;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.bank-details-card {
+    background: #f7fafc;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: left;
+}
+.bank-details-card p {
+    margin: 5px 0;
+}
+
+.close-modal-btn {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.close-modal-btn:hover {
+    background-color: #cbd5e0;
+}.social-link {
+    background-color: #2e0bdd; /* Official linkedin blue */
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.2s;
