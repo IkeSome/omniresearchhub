@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trial Exam</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f8f9fa; color: #333; padding: 20px; }
+        .quiz-container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .score-card { display: none; background: #fff0f1; border: 2px solid #ffccd0; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .score-card h2 { color: #dc3545; margin: 0; font-size: 2rem; }
+        .timer-box { font-size: 1.2rem; font-weight: bold; color: #dc3545; background: #ffeef0; padding: 10px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
+        .question-box { background: #ffffff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+        .option { display: block; padding: 12px; margin: 8px 0; border: 1px solid #e0e0e0; border-radius: 8px; cursor: pointer; }
+        .option:hover { background-color: #f1f3f5; }
+        .option input { margin-right: 10px; }
+        button.submit-btn { width: 100%; padding: 14px; background: #198754; color: white; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: bold; }
+        button.submit-btn:hover { background: #157347; }
+        .correct-ans { background-color: #d1e7dd !important; border-color: #a3cfbb !important; color: #0f5132; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <!-- Timer -->
+    <div class="timer-box" id="timer">Time Remaining: 10:00</div>
+
+    <!-- Score Card (Hidden until submission) -->
+    <div class="score-card" id="scoreCard">
+        <h2 id="scorePercent">0%</h2>
+        <p id="scoreDetails">0/1 correct · Pass mark 50%</p>
+        <p id="passStatus">Did not pass</p>
+    </div>
+
+    <form id="quizForm">
+        <!-- Question 1 -->
+        <div class="question-box">
+            <h3>Q1. Mathematics</h3>
+            <p>A pharmaceutical company produces two formulations of an antiseptic solution. Solution A contains 40% alcohol while Solution B contains 70% alcohol. A pharmacist wishes to prepare 24 L of a solution containing 55% alcohol. How many litres of Solution A are required?</p>
+            
+            <label class="option"><input type="radio" name="q1" value="A"> A) 8 L</label>
+            <label class="option"><input type="radio" name="q1" value="B"> B) 10 L</label>
+            <label class="option" id="correctOpt1"><input type="radio" name="q1" value="C"> C) 12 L</label>
+            <label class="option"><input type="radio" name="q1" value="D"> D) 14 L</label>
+        </div>
+
+        <button type="button" class="submit-btn" onclick="submitQuiz()">Submit Exam</button>
+    </form>
+</div>
+
+<script>
+    // 10 Minute Countdown Timer
+    let timeAllowed = 600; 
+    const timerElement = document.getElementById('timer');
+    
+    const countdown = setInterval(() => {
+        let minutes = Math.floor(timeAllowed / 60);
+        let seconds = timeAllowed % 60;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+        timerElement.innerHTML = `Time Remaining: ${minutes}:${seconds}`;
+        
+        if (timeAllowed <= 0) {
+            clearInterval(countdown);
+            submitQuiz(); // Auto submit when time runs out
+        }
+        timeAllowed--;
+    }, 1000);
+
+    // Grading Logic
+    function submitQuiz() {
+        clearInterval(countdown);
+        timerElement.style.display = 'none';
+
+        let totalQuestions = 1;
+        let score = 0;
+
+        // Check Q1
+        const q1Answer = document.querySelector('input[name="q1"]:checked');
+        if (q1Answer && q1Answer.value === "C") {
+            score++;
+        }
+
+        // Highlight correct answer in green
+        document.getElementById('correctOpt1').classList.add('correct-ans');
+
+        // Calculate and display scores
+        let percent = Math.round((score / totalQuestions) * 100);
+        document.getElementById('scorePercent').innerText = percent + "%";
+        document.getElementById('scoreDetails').innerText = `${score}/${totalQuestions} correct · Pass mark 50%`;
+        
+        const card = document.getElementById('scoreCard');
+        const status = document.getElementById('passStatus');
+        card.style.display = 'block';
+
+        if (percent >= 50) {
+            card.style.style.background = '#e2f0cb';
+            card.style.borderColor = '#b5e29c';
+            status.innerText = "Passed successfully!";
+            status.style.color = "#2b6b14";
+        } else {
+            status.innerText = "Did not pass";
+            status.style.color = "#dc3545";
+        }
+        
+        // Scroll to the top to see the score card layout
+        window.scrollTo(0,0);
+    }
+</script>
+
+</body>
+</html>
