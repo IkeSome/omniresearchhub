@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCC ITS 101: Mega 100-Question Quiz (Interactive)</title>
+    <style>
+        :root {
+            --primary: #004b87; /* UCC Blue */
+            --secondary: #f4c430; /* UCC Gold */
+            --bg: #f9fafc;
+            --text: #333;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .quiz-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+            padding: 30px;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .header h1 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+        }
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background: #e9ecef;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--primary);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .stat-box span {
+            color: #dc3545; /* Red for emphasis on dynamic numbers */
+        }
+        .progress-container {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 5px;
+            height: 10px;
+            margin-bottom: 10px;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .visual-box {
+            background: #eee;
+            border: 1px dashed #999;
+            padding: 15px;
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option {
+            background: #f1f3f5;
+            border: 2px solid #e9ecef;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1em;
+        }
+        .option:hover:not(.locked) {
+            background: #e2e6ea;
+            border-color: var(--primary);
+        }
+        .option.correct {
+            background: #28a745 !important;
+            color: white;
+            border-color: #28a745 !important;
+            cursor: default;
+        }
+        .option.wrong {
+            background: #dc3545 !important;
+            color: white;
+            border-color: #dc3545 !important;
+            cursor: default;
+        }
+        .option.locked {
+            cursor: default;
+            opacity: 0.8;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            min-width: 100px;
+        }
+        button:hover:not(:disabled) {
+            background: #003665;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .score-board {
+            text-align: center;
+            display: none;
+        }
+        .score-board h2 {
+            font-size: 2.5em;
+            color: var(--primary);
+        }
+    .palette-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr); /* 10 buttons per row */
+            gap: 5px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        .palette-btn {
+            padding: 8px 0;
+            text-align: center;
+            background: #f1f3f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        .palette-btn:hover { background: #e2e6ea; }
+        .palette-btn.current { border: 2px solid var(--primary); font-weight: bold; }
+        .palette-btn.answered-correct { background: #28a745; color: white; border-color: #28a745; }
+        .palette-btn.answered-wrong { background: #dc3545; color: white; border-color: #dc3545; }</style>
+</head>
+<body>
+
+<div class="quiz-container" id="quiz-screen">
+    <div class="header">
+        <h1>UCC ITS 101 Mega Quiz</h1>
+        <p>Information Technology Skills: Word, Excel, PowerPoint & Computing Basics</p>
+    </div>
+
+    <!-- NEW STATS BAR -->
+    <div class="stats-bar">
+        <div class="stat-box">⏱️ Time: <span id="time-display">60:00</span></div>
+        <div class="stat-box">📝 Answered: <span id="answered-display">0 / 100</span></div>
+        <div class="stat-box">✅ Score: <span id="score-display">0 / 0</span></div>
+    </div>
+    
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <p style="text-align: right; font-size: 0.9em; color: #666;" id="q-counter">Question 1 / 100</p>
+
+    <div id="visual-container" class="visual-box" style="display: none;"></div>
+    
+    <div class="question" id="question-text">Loading question...</div>
+    
+    <div class="options" id="options-container">
+        <!-- Options injected via JS -->
+    </div>
+
+    <div class="controls">
+        <button id="back-btn">Back</button>
+        <button id="next-btn">Next</button>
+    </div>
+</div>
+<!-- QUIZ PALETTE -->
+    <div id="quiz-palette" class="palette-container"></div>
+<div class="quiz-container score-board" id="score-screen">
+    <h1>Quiz Complete!</h1>
+    <p>Your Final ITS 101 Score:</p>
+    <h2 id="final-score">0 / 100</h2>
+    <p id="feedback-msg"></p>
+    <button onclick="location.reload()">Retake Mega Quiz</button>
+</div>
+
+<script>
+    const questions = [
+        // --- MICROSOFT WORD (33 Questions) ---
+        ["What is the keyboard shortcut to 'Undo' the last action in MS Word?", ["Ctrl + Y", "Ctrl + Z", "Ctrl + U", "Ctrl + X"], 1],
+        ["Which ribbon tab in Word is used to insert a Table of Contents?", ["Insert", "Layout", "References", "Review"], 2],
+        ["What does the 'Format Painter' tool do?", ["Paints the background color of the page", "Copies formatting from one place and applies it to another", "Changes the font style automatically", "Draws shapes on the document"], 1, "[ Visual: An icon resembling a yellow paintbrush on the Home tab ]"],
+        ["To force a page break and move text to the next page, use:", ["Enter", "Shift + Enter", "Alt + Enter", "Ctrl + Enter"], 3],
+        ["Which shortcut is used to Select All text in a document?", ["Ctrl + A", "Ctrl + S", "Alt + A", "Shift + A"], 0],
+        ["What is the default file extension for Microsoft Word 2007 and newer?", [".doc", ".txt", ".docx", ".rtf"], 2],
+        ["Which feature allows you to send the same letter to multiple recipients?", ["Macro", "Mail Merge", "Hyperlink", "Cross-reference"], 1],
+        ["To change the margin sizes of a document, which tab must you click?", ["Home", "Design", "Layout", "Insert"], 2],
+        ["What is a 'Drop Cap'?", ["A capital letter that drops below the baseline of the text", "A large initial letter that drops down two or more lines", "A tool to delete capital letters", "A method to capitalize all letters"], 1],
+        ["What does Ctrl + E do in MS Word?", ["Aligns text to the left", "Aligns text to the right", "Justifies text", "Centers text"], 3],
+        ["Where would you find the 'Track Changes' feature?", ["Review tab", "View tab", "References tab", "Insert tab"], 0],
+        ["What does the subscript feature do?", ["Types very small letters just above the line of text", "Types very small letters just below the line of text", "Highlights the text", "Draws a line through the text"], 1, "[ Visual: An icon showing an 'X' with a small '2' at the bottom right ]"],
+        ["What is the shortcut to save a document?", ["Ctrl + P", "Ctrl + S", "Shift + S", "Alt + S"], 1],
+        ["Which key deletes the character to the left of the cursor?", ["Delete", "Backspace", "Spacebar", "Esc"], 1],
+        ["Which of the following is NOT a paragraph alignment option in Word?", ["Left", "Right", "Center", "Top"], 3],
+        ["To find a specific word in a document, you use:", ["Ctrl + F", "Ctrl + H", "Ctrl + K", "Ctrl + W"], 0],
+        ["What does Ctrl + K do?", ["Cuts text", "Inserts a hyperlink", "Opens the Print dialog", "Replaces text"], 1],
+        ["To open a new blank document, use:", ["Ctrl + O", "Ctrl + M", "Ctrl + N", "Ctrl + B"], 2],
+        ["Which feature corrects common spelling errors automatically as you type?", ["Spell Check", "Thesaurus", "AutoCorrect", "Grammar Check"], 2],
+        ["In the Review tab, what is the Thesaurus used for?", ["Checking grammar", "Finding synonyms and antonyms", "Translating text", "Counting words"], 1],
+        ["What does the 'Strikethrough' effect do?", ["Underlines the text twice", "Draws a line through the middle of the selected text", "Deletes the text", "Highlights the text red"], 1],
+        ["To copy selected text, use:", ["Ctrl + V", "Ctrl + X", "Ctrl + C", "Ctrl + D"], 2],
+        ["To paste copied text, use:", ["Ctrl + P", "Ctrl + V", "Ctrl + C", "Ctrl + X"], 1],
+        ["What is the function of the 'Ruler' in Word?", ["To measure screen size", "To set margins, indents, and tabs", "To draw straight lines", "To calculate table formulas"], 1],
+        ["A header appears at the ________ of every page.", ["Bottom", "Top", "Left margin", "Right margin"], 1],
+        ["Which view displays the document exactly as it will appear when printed?", ["Web Layout", "Read Mode", "Print Layout", "Outline"], 2],
+        ["What is the shortcut to print a document?", ["Ctrl + P", "Alt + P", "Shift + P", "Windows + P"], 0],
+        ["To create a bulleted list automatically, what character can you type followed by space?", ["* (Asterisk)", "/ (Slash)", "# (Hash)", "@ (At symbol)"], 0],
+        ["How do you select a single word using the mouse?", ["Single click", "Double click", "Triple click", "Right click"], 1],
+        ["How do you select an entire paragraph using the mouse?", ["Single click", "Double click", "Triple click", "Right click"], 2],
+        ["What is the shortcut to double space text?", ["Ctrl + 1", "Ctrl + 2", "Ctrl + D", "Ctrl + Space"], 1],
+        ["Which ribbon tab is used to add a watermark?", ["Insert", "Design", "Layout", "View"], 1],
+        ["To convert text to a table, which tab do you use?", ["Insert", "Design", "Home", "Layout"], 0],
+
+        // --- MICROSOFT EXCEL (34 Questions) ---
+        ["Every formula in Excel must begin with which symbol?", ["+", "-", "=", "@"], 2],
+        ["What is the intersection of a row and a column called?", ["A box", "A cell", "A grid", "A range"], 1],
+        ["Which of these is an absolute cell reference?", ["A1", "$A$1", "#A#1", "@A1"], 1],
+        ["What does the formula =SUM(A1:A5) do?", ["Counts the number of cells from A1 to A5", "Adds the values in cells A1 through A5", "Finds the average of A1 to A5", "Multiplies A1 by A5"], 1],
+        ["What is the function of the 'Fill Handle'?", ["To color the cell background", "To automatically copy formulas or data series down or across", "To erase cell contents", "To resize the cell"], 1, "[ Visual: A small green square in the bottom-right corner of an active cell ]"],
+        ["Which function counts only the cells that contain numbers?", ["COUNT", "COUNTA", "COUNTIF", "SUM"], 0],
+        ["Which function counts cells containing any data (text or numbers)?", ["COUNT", "COUNTA", "COUNTIF", "SUM"], 1],
+        ["What does the 'Merge & Center' button do?", ["Calculates the average of cells", "Combines multiple selected cells into one and centers the text", "Wraps text to the next line", "Moves the cell to the middle of the sheet"], 1],
+        ["If a cell displays '#####', what does it mean?", ["The formula is broken", "The column is not wide enough to display the number", "The cell is locked", "The data is corrupted"], 1],
+        ["Which formula finds the highest number in a range?", ["=HIGH()", "=MAX()", "=TOP()", "=LARGE()"], 1],
+        ["Which shortcut edits the active cell directly?", ["F1", "F2", "F3", "F4"], 1],
+        ["Which key turns a relative reference (A1) into an absolute reference ($A$1) while typing?", ["F2", "F4", "Alt", "Ctrl"], 1],
+        ["What does the function =AVERAGE(B1:B10) calculate?", ["The total sum", "The median value", "The arithmetic mean of the values", "The mode"], 2],
+        ["What does VLOOKUP stand for?", ["Vertical Lookup", "Value Lookup", "Variable Lookup", "View Lookup"], 0],
+        ["In the IF function =IF(C2>50, 'Pass', 'Fail'), what happens if C2 is 45?", ["It displays 'Pass'", "It displays 'Fail'", "It shows an error", "It displays 45"], 1],
+        ["Which of these symbols is used to concatenate (join) text from two cells?", ["+", "&", "*", "#"], 1],
+        ["How are columns labeled in Excel?", ["By numbers (1, 2, 3)", "By Roman numerals", "By letters (A, B, C)", "By symbols"], 2],
+        ["How are rows labeled in Excel?", ["By numbers (1, 2, 3)", "By letters (A, B, C)", "By Roman numerals", "By symbols"], 0],
+        ["Which ribbon tab contains the 'Filter' and 'Sort' commands?", ["Home", "Insert", "Data", "Review"], 2],
+        ["What is the keyboard shortcut to select an entire column?", ["Ctrl + Spacebar", "Shift + Spacebar", "Ctrl + A", "Alt + C"], 0],
+        ["What is the keyboard shortcut to select an entire row?", ["Ctrl + Spacebar", "Shift + Spacebar", "Ctrl + R", "Alt + R"], 1],
+        ["Which tool allows you to apply a format to a cell only if it meets a certain criteria (e.g., highlighting numbers > 50 in red)?", ["Format Painter", "Conditional Formatting", "Cell Styles", "Data Validation"], 1],
+        ["What does the 'Wrap Text' feature do?", ["Cuts the text out of the cell", "Makes text display on multiple lines within a single cell", "Rotates the text 90 degrees", "Hides the text"], 1],
+        ["Which feature locks rows or columns so they remain visible while scrolling?", ["Lock Cells", "Hold Panes", "Freeze Panes", "Split Screen"], 2],
+        ["What is the shortcut to insert the current date in a cell?", ["Ctrl + ; (Semicolon)", "Ctrl + : (Colon)", "Alt + D", "Shift + D"], 0],
+        ["What is a 'Workbook' in Excel?", ["A single page of rows and columns", "A collection of one or more Worksheets saved as a single file", "A specific chart", "A formula script"], 1],
+        ["What does =MIN(D1:D10) do?", ["Minimizes the column width", "Finds the lowest value in the range", "Subtracts D1 from D10", "Converts text to lowercase"], 1],
+        ["To insert a Pie Chart, which tab do you use?", ["Data", "Formulas", "Insert", "View"], 2],
+        ["Which error means Excel doesn't recognize text in a formula?", ["#DIV/0!", "#N/A", "#NAME?", "#REF!"], 2],
+        ["Which error occurs when you divide a number by zero?", ["#DIV/0!", "#N/A", "#NAME?", "#REF!"], 0],
+        ["What is the shortcut for AutoSum?", ["Alt + S", "Ctrl + =", "Alt + =", "Shift + +"], 2],
+        ["Which feature prevents users from typing invalid data into a cell (e.g., restricting input to numbers only)?", ["Data Filter", "Conditional Formatting", "Data Validation", "Protect Sheet"], 2],
+        ["To view all formulas on a sheet instead of their results, press:", ["Ctrl + ` (Grave Accent)", "Ctrl + F", "Alt + F", "Shift + `"], 0],
+        ["In Excel, the logical test in an IF function must result in:", ["A number", "True or False", "Text", "An error"], 1],
+
+        // --- MICROSOFT POWERPOINT & COMPUTING BASICS (33 Questions) ---
+        ["What is the keyboard shortcut to start a presentation from the very first slide?", ["F5", "Shift + F5", "Ctrl + P", "Alt + F5"], 0],
+        ["What is the keyboard shortcut to start a presentation from the CURRENT slide?", ["F5", "Shift + F5", "Ctrl + P", "Alt + F5"], 1],
+        ["What is the difference between a Transition and an Animation?", ["Transitions apply to text; Animations apply to images", "Transitions apply to whole slides; Animations apply to objects on a slide", "They are the exact same thing", "Animations are for sound only"], 1],
+        ["Which view displays miniature versions of all slides, making it easy to rearrange them?", ["Normal View", "Slide Show View", "Reading View", "Slide Sorter View"], 3, "[ Visual: An icon showing four small squares arranged in a grid ]"],
+        ["To add a new blank slide to a presentation, use:", ["Ctrl + N", "Ctrl + M", "Ctrl + S", "Ctrl + B"], 1],
+        ["Ctrl + N in PowerPoint does what?", ["Creates a new Slide", "Creates a completely new Presentation file", "Adds notes to a slide", "Moves to the next slide"], 1],
+        ["What feature allows you to control the universal layout, background, and fonts for all slides at once?", ["Slide Master", "Design Ideas", "Format Painter", "SmartArt"], 0],
+        ["Which key do you press to exit a running Slide Show?", ["Enter", "Spacebar", "Esc", "End"], 2],
+        ["What is the default file extension for a PowerPoint 2007+ file?", [".pps", ".pptx", ".ptx", ".ppt"], 1],
+        ["To draw a perfect circle or square, hold down which key while dragging the mouse?", ["Alt", "Ctrl", "Shift", "Tab"], 2],
+        ["What is 'SmartArt'?", ["A tool to draw custom shapes", "Pre-designed graphics used to visually communicate information (like flowcharts)", "A photo editing tool", "A transition effect"], 1],
+        ["In Presenter View, what does the audience see?", ["Your speaker notes", "The current slide, next slide, and notes", "Only the current slide", "The Slide Sorter"], 2],
+        ["How do you duplicate a selected slide or object quickly?", ["Ctrl + C", "Ctrl + D", "Ctrl + X", "Ctrl + V"], 1],
+        ["Which tab allows you to set timings for how long a slide stays on screen?", ["Animations", "Design", "Transitions", "Insert"], 2],
+        ["What is the 'Motion Path' feature in animations?", ["It controls how the slide enters the screen", "It allows an object to move along a custom drawn line on the slide", "It adds a video to the slide", "It transitions from left to right"], 1],
+        ["To add a video to your presentation, which tab is used?", ["Design", "Transitions", "Insert", "Animations"], 2],
+        ["What does the 'B' key do during a running slide show?", ["Brings up the previous slide", "Makes the screen go entirely Black", "Bolds the text on screen", "Bypasses animations"], 1],
+        ["What does the 'W' key do during a running slide show?", ["Waits 5 seconds", "Makes the screen go entirely White", "Writes text on the slide", "Wipes the screen clean"], 1],
+        ["What is a 'Hyperlink' in a presentation?", ["A fast animation", "A clickable text or image that jumps to a website or another slide", "A loud sound effect", "A large font size"], 1],
+        ["Which feature aligns multiple selected objects perfectly on a slide?", ["Format Painter", "Group", "Align Tool (Distribute)", "Bring to Front"], 2],
+        ["To apply a uniform background color and font theme to your presentation, you select a:", ["Theme (Design tab)", "Transition", "SmartArt", "Macro"], 0],
+        ["What is the physical equipment of a computer called?", ["Software", "Hardware", "Firmware", "Malware"], 1],
+        ["Which of the following is an Operating System?", ["Microsoft Word", "Google Chrome", "Windows 11", "Intel Core i7"], 2],
+        ["What does RAM stand for?", ["Read Access Memory", "Random Access Memory", "Run Action Module", "Real Active Memory"], 1],
+        ["Is RAM considered temporary (volatile) or permanent (non-volatile) storage?", ["Temporary (Volatile)", "Permanent (Non-volatile)", "Both", "Neither"], 0],
+        ["Which part of the computer acts as the 'brain', performing calculations and instructions?", ["Hard Drive", "RAM", "CPU (Central Processing Unit)", "Motherboard"], 2],
+        ["What is a URL?", ["A computer virus", "A web address (Uniform Resource Locator)", "A type of cable", "A hard drive partition"], 1],
+        ["Which of the following is considered an Input device?", ["Monitor", "Printer", "Keyboard", "Speaker"], 2],
+        ["Which of the following is considered an Output device?", ["Mouse", "Microphone", "Scanner", "Projector"], 3],
+        ["What does 'CC' stand for in an email context?", ["Computer Copy", "Carbon Copy", "Correct Copy", "Cloud Copy"], 1],
+        ["What is the function of an ISP (Internet Service Provider)?", ["Provides software to computers", "Fixes broken hardware", "Provides access to the Internet", "Builds websites"], 2],
+        ["When researching for an academic paper on the Internet, which domain extension is generally the most authoritative for universities?", [".com", ".org", ".edu", ".net"], 2],
+        ["What is the UCC Student Portal primarily used for?", ["Social networking with students", "Registering courses and checking results", "Playing online games", "Buying laptops"], 1]
+    ];
+
+ let currentQuestionIndex = localStorage.getItem('quizIndex') ? parseInt(localStorage.getItem('quizIndex')) : 0;
+    let userAnswers = localStorage.getItem('quizAnswers') ? JSON.parse(localStorage.getItem('quizAnswers')) : new Array(questions.length).fill(null);
+    let timeRemaining = localStorage.getItem('quizTime') ? parseInt(localStorage.getItem('quizTime')) : 3600;
+    let timerInterval;
+
+    const questionText = document.getElementById("question-text");
+    const optionsContainer = document.getElementById("options-container");
+    const visualContainer = document.getElementById("visual-container");
+    const backBtn = document.getElementById("back-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const progressBar = document.getElementById("progress-bar");
+    const qCounter = document.getElementById("q-counter");
+    
+    const timeDisplay = document.getElementById("time-display");
+    const answeredDisplay = document.getElementById("answered-display");
+    const scoreDisplay = document.getElementById("score-display");
+function renderPalette() {
+        const palette = document.getElementById("quiz-palette");
+        palette.innerHTML = "";
+        for (let i = 0; i < questions.length; i++) {
+            const btn = document.createElement("div");
+            btn.className = "palette-btn";
+            btn.textContent = i + 1;
+            btn.onclick = () => {
+                currentQuestionIndex = i;
+                loadQuestion();
+            };
+            palette.appendChild(btn);
+        }
+    }
+
+    function updatePalette() {
+        const btns = document.querySelectorAll(".palette-btn");
+        btns.forEach((btn, index) => {
+            btn.className = "palette-btn"; // Reset
+            if (index === currentQuestionIndex) btn.classList.add("current");
+            if (userAnswers[index] !== null) {
+                if (userAnswers[index] === questions[index][2]) {
+                    btn.classList.add("answered-correct");
+                } else {
+                    btn.classList.add("answered-wrong");
+                }
+            }
+        });
+    }
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeRemaining--;
+            localStorage.setItem('quizTime', timeRemaining);
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+            
+            timeDisplay.textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeRemaining <= 0) {
+                clearInterval(timerInterval);
+                showScore(); // Auto submit when time runs out
+            }
+        }, 1000);
+    }
+    
+    function updateStats() {
+        // Calculate Answered Count
+        const answeredCount = userAnswers.filter(ans => ans !== null).length;
+        
+        // Calculate Correct Answers Count
+        let correctCount = 0;
+        userAnswers.forEach((ans, idx) => {
+            if (ans !== null && ans === questions[idx][2]) {
+                correctCount++;
+            }
+        });
+
+        answeredDisplay.textContent = `${answeredCount} / ${questions.length}`;
+        scoreDisplay.textContent = `${correctCount} / ${answeredCount === 0 ? 0 : answeredCount}`;
+    }
+
+    function loadQuestion() {
+        localStorage.setItem('quizIndex', currentQuestionIndex);
+        const qData = questions[currentQuestionIndex];
+        const correctIndex = qData[2];
+        const answeredIndex = userAnswers[currentQuestionIndex];
+        
+        // Update text and visuals
+        questionText.textContent = `${currentQuestionIndex + 1}. ${qData[0]}`;
+        if (qData[3]) {
+            visualContainer.textContent = qData[3];
+            visualContainer.style.display = "block";
+        } else {
+            visualContainer.style.display = "none";
+        }
+
+        // Render options
+        optionsContainer.innerHTML = "";
+        qData[1].forEach((opt, index) => {
+            const div = document.createElement("div");
+            div.className = "option";
+            div.textContent = opt;
+            
+            // If the user has already answered this question, apply styles instantly
+            if (answeredIndex !== null) {
+                div.classList.add("locked");
+                if (index === correctIndex) {
+                    div.classList.add("correct");
+                }
+                if (index === answeredIndex && answeredIndex !== correctIndex) {
+                    div.classList.add("wrong");
+                }
+            } else {
+                // Only allow clicking if it hasn't been answered yet
+                div.onclick = () => selectOption(index);
+            }
+            
+            optionsContainer.appendChild(div);
+        });
+
+        // Update button states
+        backBtn.disabled = currentQuestionIndex === 0;
+        
+        if (currentQuestionIndex === questions.length - 1) {
+            nextBtn.textContent = "Finish Quiz";
+        } else {
+            nextBtn.textContent = "Next";
+        }
+
+        updateProgress();
+        updatePalette();
+    }
+
+    function selectOption(selectedIndex) {
+        const correctIndex = questions[currentQuestionIndex][2];
+        const options = document.querySelectorAll(".option");
+        
+        // Save the answer
+        userAnswers[currentQuestionIndex] = selectedIndex;
+localStorage.setItem('quizAnswers', JSON.stringify(userAnswers));
+        // Apply instant feedback classes and lock options
+        options.forEach((opt, idx) => {
+            opt.onclick = null; // Remove click event
+            opt.classList.add("locked"); // Lock styling
+            
+            if (idx === correctIndex) {
+                opt.classList.add("correct");
+            }
+            if (idx === selectedIndex && selectedIndex !== correctIndex) {
+                opt.classList.add("wrong");
+            }
+        });
+        
+        // Update Top Stats bar
+        updateStats();
+        updatePalette();
+    }
+
+    backBtn.onclick = () => {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion();
+        }
+    };
+
+    nextBtn.onclick = () => {
+        if (currentQuestionIndex < questions.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+        } else {
+            showScore();
+        }
+    };
+
+    function updateProgress() {
+        const percent = ((currentQuestionIndex + 1) / questions.length) * 100;
+        progressBar.style.width = percent + "%";
+        qCounter.textContent = `Question ${currentQuestionIndex + 1} / ${questions.length}`;
+    }
+
+    function showScore() {
+        clearInterval(timerInterval); // Stop the timer
+localStorage.removeItem('quizTime');
+    localStorage.removeItem('quizIndex');
+    localStorage.removeItem('quizAnswers');
+        // Calculate final score
+        let finalScore = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] === questions[i][2]) {
+                finalScore++;
+            }
+        }
+
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("score-screen").style.display = "block";
+        document.getElementById("final-score").textContent = `${finalScore} / ${questions.length}`;
+        
+        let msg = "";
+        const percentage = (finalScore / questions.length) * 100;
+        if (percentage >= 80) msg = "Excellent! You are more than ready for the ITS 101 exam.";
+        else if (percentage >= 60) msg = "Good job! A little more review on the shortcuts and formulas and you'll be perfect.";
+        else if (percentage >= 50) msg = "You passed, but make sure to review your UCC course manual before finals.";
+        else msg = "Don't worry! Keep practicing. Focus heavily on those Excel formulas and Word ribbons.";
+        
+        // Let the user know if they skipped any questions
+        const skippedCount = userAnswers.filter(ans => ans === null).length;
+        if (skippedCount > 0) {
+            msg += ` (Note: You left ${skippedCount} question(s) unanswered).`;
+        }
+
+        document.getElementById("feedback-msg").textContent = msg;
+    }
+
+    // Initialize Quiz & Timer
+startTimer();
+updateStats();
+renderPalette();
+loadQuestion();
+</script>
+
+</body>
+</html>
